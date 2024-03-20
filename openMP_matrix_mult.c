@@ -3,8 +3,10 @@
 #include <limits.h>
 #include <time.h>
 #include <omp.h>
+#include <stdlib.h>
+#include <stdbool.h>
 
-#define N 20
+//#define N 20
 
 static int rrand(float value)
 {
@@ -30,40 +32,78 @@ static float** randomize(int size)
 
 int main()
 {
-    int n = N;
-    float** c = randomize(n);
-    float** a = randomize(n);
-    float** b = randomize(n);
-    // TODO: Check if the matrices updated.
 
-    // TODO: Add timers for the performance meajurements
+    // Check if file exists to avoid overwriting headers
+    const char *csv_file_name="openMP_mmm.csv";
 
-    #define NUM_THREADS 4
-    omp_set_num_threads(NUM_THREADS);
+    FILE *outputFile = fopen(csv_file_name, "a");
 
-    double start_time = omp_get_wtime();
+    // Check if the file is open
+    if (outputFile == NULL) {
+        // Failed to open the file
+        fprintf(stderr, "Error: Failed to open file for appending.\n");
+        return 1;
+    }
 
-    #pragma omp parallel
-    {
-        int threadnum = omp_get_thread_num(), 
-        numthreads = omp_get_num_threads();
+    // Write headers if the file is newly created
+    fseek(outputFile, 0, SEEK_END); // Move to the end of the file
+    long fileSize = ftell(outputFile); // Get the current position (file size)
+    if (fileSize == 0) { // Check if the file is empty
+        fprintf(outputFile, "Matrix Size, Iterations, Threads, Runtime\n");
+    }
 
-        #pragma omp for collapse(2)
-        for (int idx = 0; idx < n; idx++)
-        {
-            for (int idy = 0; idy < n; idy++)
-            {
-                for (int idz = 0; idz < n; idz++)
+
+
+    int matrix_size[3] = {20,100,1000};
+
+    for (int i = 0; i < 3; i++) {
+        int n = matrix_size[i];
+        int N = n;
+        float** c = randomize(n);
+        float** a = randomize(n);
+        float** b = randomize(n);
+        
+
+        #define NUM_THREADS 16
+        #define totalIterations 10
+        omp_set_num_threads(NUM_THREADS);
+
+        for (int thread_num = 1; thread_num < NUM_THREADS + 1; thread_num*=2) {
+            for (int iter = 0; iter < totalIterations; iter++){
+                double start_time = omp_get_wtime();
+
+                #pragma omp parallel
                 {
-                    // TODO: Make sure c is updated accordingly.
-                    c[idx][idy] += a[idx][idz] * b[idz][idy];
+                    int threadnum = omp_get_thread_num(), 
+                    numthreads = omp_get_num_threads();
+
+                    #pragma omp for collapse(2)
+                    for (int idx = 0; idx < n; idx++)
+                    {
+                        for (int idy = 0; idy < n; idy++)
+                        {
+                            for (int idz = 0; idz < n; idz++)
+                            {
+                                // TODO: Make sure c is updated accordingly.
+                                c[idx][idy] += a[idx][idz] * b[idz][idy];
+                            }
+                        }
+                    }
                 }
+
+                double end_time = omp_get_wtime();
+                double run_time = end_time - start_time;
+                printf("Runtime information %d, %d, %d, %f\n", N, totalIterations, thread_num, run_time);
+                // Writing the data
+                fprintf(outputFile, "%d, %d, %d, %f\n", N, totalIterations, thread_num, run_time);
+
             }
         }
     }
+    
 
-    double end_time = omp_get_wtime();
-    printf("Time for MMM: %f seconds\n", end_time - start_time);
+
+    fclose(outputFile);
 
     return 0;
 }
