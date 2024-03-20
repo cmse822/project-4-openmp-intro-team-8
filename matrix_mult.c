@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include <limits.h>
 #include <time.h>
+#include <omp.h>
+
+#define N 5
 
 static int rrand(float value)
 {
@@ -11,7 +14,7 @@ static int rrand(float value)
 static float** randomize(int size)
 {
     // TODO: Fix pointers to create randomized matrices.
-    float arr[size][size];
+    float** arr = (float**)malloc(size * sizeof(float*));
 
     for (int idx = 0; idx < size; idx++)
     {
@@ -38,21 +41,31 @@ static float** randomize(int size)
 
 int main()
 {
-    int n = 1;
-    float c[n][n] = randomize(n);
-    float a[n][n] = randomize(n);
-    float b[n][n] = randomize(n);
+    int n = N;
+    float** c = randomize(n);
+    float** a = randomize(n);
+    float** b = randomize(n);
     // TODO: Check if the matrices updated.
 
     // TODO: Add timers for the performance meajurements
-    for (int idx = 0; idx < n; idx++)
+
+    #define NUM_THREADS 2
+    omp_set_num_threads(NUM_THREADS);
+    #pragma omp parallel
     {
-        for (int idy = 0; idy < n; idy++)
+        int threadnum = omp_get_thread_num(), 
+        numthreads = omp_get_num_threads();
+
+        #pragma omp for collapse(2)
+        for (int idx = 0; idx < n; idx++)
         {
-            for (int idz = 0; idz < n; idz++)
+            for (int idy = 0; idy < n; idy++)
             {
-                // TODO: Make sure c is updated accordingly.
-                c[idx][idy] += a[idx][idz] * b[idz][idy];
+                for (int idz = 0; idz < n; idz++)
+                {
+                    // TODO: Make sure c is updated accordingly.
+                    c[idx][idy] += a[idx][idz] * b[idz][idy];
+                }
             }
         }
     }
