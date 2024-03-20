@@ -19,8 +19,23 @@ What strategies could you use to add parallelism using OpenMP threading to this 
 
 Now, let's implement so OpenMP loop parallelism.
 
-1. Modify your MMM code from Project 1 to implement OpenMP threading by adding appropriate compiler directives to the outer loop of the MMM kernel. When compiling the OpenMP version of your code be sure to include the appropriate compiler flag (`-fopenmp` for GCC).
+1. Modify your MMM code from Project 1 to implement OpenMP threading by adding appropriate compiler directives to the outer loop of the MMM kernel. When compiling the OpenMP version of your code be sure to include the appropriate compiler flag (`-fopenmp` for GCC). Done!
 2. Compute the time-to-solution of your MMM code for 1 thread (e.g., `export OMP_NUM_THREADS=1`) to the non-OpenMP version (i.e., compiled without the `-fopenmp` flag). Any matrix size `N` will do here. Does it perform as you expect? If not, consider the OpenMP directives you are using.
+
+Running openMP version of matrix_mult.c on dev-amd20 produces these times when N = 5 for NUM_THREADS = 1
+| Run Number | openMP MMM time (seconds) | non-openMP MMM (seconds) |
+|---------|----------|----------|
+|    1    |  0.00001 |    ?     |
+|    2    |  0.00001 |    ?     |
+|    3    |  0.000008 |    ?     |
+|    4    |  0.00001 |    ?     |
+|    5    |  0.000007 |    ?     |
+|    6    |  0.000008 |    ?     |
+|    7    |  0.000007 |    ?     |
+|    8    |  0.000010 |    ?     |
+|    9    |  0.000007 |    ?     |
+|    10    |  0.000007 |    ?     |
+
 3. Perform a thread-to-thread speedup study of your MMM code either on your laptop or HPCC. Compute the total time to solution for a few thread counts (in powers of 2): `1,2,4,...T`, where T is the maximum number of threads available on the machine you are using. Do this for matrix sizes of `N=20,100,1000`.
 4. Plot the times-to-solution for the MMM for each value of `N` separately as functions of the the thread count `T`. Compare the scaling of the MMM for different matrix dimensions.
 5. Verify that for the same input matrices that the solution does not depend on the number of threads.

@@ -18,21 +18,10 @@ static float** randomize(int size)
 
     for (int idx = 0; idx < size; idx++)
     {
+        arr[idx] = (float*)malloc(size * sizeof(float));
         for (int idy = 0; idy < size; idy++) 
         { 
-            arr[idx][idy] = idx;
-        }
-    }
-
-    for (int idx = size; idx > 1; idx--)
-    {
-        for (int idy = size; idy > 1; idy--)
-        {
-            int num = rrand(idx);
-            int tmp = arr[idx - 1][idy - 1];
-
-            arr[idx - 1][idy - 1] = arr[num][num];
-            arr[num][num] = tmp;
+            arr[idx][idy] = (float)rand() / RAND_MAX;
         }
     }
 
@@ -49,8 +38,11 @@ int main()
 
     // TODO: Add timers for the performance meajurements
 
-    #define NUM_THREADS 2
+    #define NUM_THREADS 1
     omp_set_num_threads(NUM_THREADS);
+
+    double start_time = omp_get_wtime();
+
     #pragma omp parallel
     {
         int threadnum = omp_get_thread_num(), 
@@ -69,6 +61,9 @@ int main()
             }
         }
     }
+
+    double end_time = omp_get_wtime();
+    printf("Time for MMM: %f seconds\n", end_time - start_time);
 
     return 0;
 }
