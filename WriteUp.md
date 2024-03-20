@@ -25,18 +25,32 @@ Now, let's implement so OpenMP loop parallelism.
 Running openMP version of matrix_mult.c on dev-amd20 produces these times when N = 5 for NUM_THREADS = 1
 | Run Number | openMP MMM time (seconds) | non-openMP MMM (seconds) |
 |---------|----------|----------|
-|    1    |  0.00001 |    ?     |
-|    2    |  0.00001 |    ?     |
-|    3    |  0.000008 |    ?     |
-|    4    |  0.00001 |    ?     |
-|    5    |  0.000007 |    ?     |
-|    6    |  0.000008 |    ?     |
-|    7    |  0.000007 |    ?     |
-|    8    |  0.000010 |    ?     |
-|    9    |  0.000007 |    ?     |
-|    10    |  0.000007 |    ?     |
+|    1    |  0.00001 |    0.000001     |
+|    2    |  0.00001 |    0.000001     |
+|    3    |  0.000008 |    0.000000     |
+|    4    |  0.00001 |    0.000001     |
+|    5    |  0.000007 |    0.000001     |
+|    6    |  0.000008 |    0.000001     |
+|    7    |  0.000007 |    0.000001     |
+|    8    |  0.000010 |    0.000000     |
+|    9    |  0.000007 |    0.000001     |
+|    10    |  0.000007 |    0.000001     |
+
+At the moment, the non-openMP version of MMM is running faster than the openMP version. This is due to the overhead require to instantiate openMP and only using one thread for all the calculation. 
 
 3. Perform a thread-to-thread speedup study of your MMM code either on your laptop or HPCC. Compute the total time to solution for a few thread counts (in powers of 2): `1,2,4,...T`, where T is the maximum number of threads available on the machine you are using. Do this for matrix sizes of `N=20,100,1000`.
+
+In the chart below, NUM_THREADS = 1, N = 20
+| Run Number | openMP MMM time (seconds) for NUM_THREADS = 1, N= 20 | openMP MMM time (seconds) for NUM_THREADS = 2, N= 20 | openMP MMM time (seconds) for NUM_THREADS = 4, N= 20
+|---------|----------|----------| ---------- | 
+|    1    | 0.000048   |    0.000084     |    0.000144    |
+|    2    | 0.000050   |    0.000089     |    0.000148    | 
+|    3    | 0.000053   |    0.000081     |      0.000142   |   
+|    4    | 0.000045    |    0.000094     |     0.000163   |
+|    5    | 0.000049    |    0.000112     |    0.000176   |
+
+#TODO: This does not look right, there should be a speed up happening as the threads gets larger....
+
 4. Plot the times-to-solution for the MMM for each value of `N` separately as functions of the the thread count `T`. Compare the scaling of the MMM for different matrix dimensions.
 5. Verify that for the same input matrices that the solution does not depend on the number of threads.
 

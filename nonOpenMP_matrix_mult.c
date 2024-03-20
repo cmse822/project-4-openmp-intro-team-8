@@ -3,11 +3,13 @@
 #include <limits.h>
 #include <time.h>
 #include <omp.h>
+#include "get_walltime.c"
 
-#define N 5
+#define N 50
 
 static int rrand(float value)
 {
+
     return ((float)value * (rand() / (RAND_MAX + 1.0)));
 }
 
@@ -38,31 +40,24 @@ int main()
 
     // TODO: Add timers for the performance meajurements
 
-    #define NUM_THREADS 1
-    omp_set_num_threads(NUM_THREADS);
+    
+    double start_time;
+    get_walltime(&start_time);
 
-    double start_time = omp_get_wtime();
-
-    #pragma omp parallel
+    for (int idx = 0; idx < n; idx++)
     {
-        int threadnum = omp_get_thread_num(), 
-        numthreads = omp_get_num_threads();
-
-        #pragma omp for collapse(2)
-        for (int idx = 0; idx < n; idx++)
+        for (int idy = 0; idy < n; idy++)
         {
-            for (int idy = 0; idy < n; idy++)
+            for (int idz = 0; idz < n; idz++)
             {
-                for (int idz = 0; idz < n; idz++)
-                {
-                    // TODO: Make sure c is updated accordingly.
-                    c[idx][idy] += a[idx][idz] * b[idz][idy];
-                }
+                // TODO: Make sure c is updated accordingly.
+                c[idx][idy] += a[idx][idz] * b[idz][idy];
             }
         }
     }
 
-    double end_time = omp_get_wtime();
+    double end_time;
+    get_walltime(&end_time);
     printf("Time for MMM: %f seconds\n", end_time - start_time);
 
     return 0;
