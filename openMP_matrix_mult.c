@@ -69,7 +69,7 @@ int main()
         omp_set_num_threads(NUM_THREADS);
 
         for (int thread_num = 1; thread_num < NUM_THREADS + 1; thread_num*=2) {
-            for (int iter = 0; iter < totalIterations; iter++){
+            for (int iter = 0; iter < totalIterations + 1; iter++){
                 double start_time = omp_get_wtime();
 
                 #pragma omp parallel
@@ -93,9 +93,9 @@ int main()
 
                 double end_time = omp_get_wtime();
                 double run_time = end_time - start_time;
-                printf("Runtime information %d, %d, %d, %f\n", N, totalIterations, thread_num, run_time);
+                printf("Runtime information %d, %d, %d, %f\n", N, iter, thread_num, run_time);
                 // Writing the data
-                fprintf(outputFile, "%d, %d, %d, %f\n", N, totalIterations, thread_num, run_time);
+                fprintf(outputFile, "%d, %d, %d, %f\n", N, iter, thread_num, run_time);
 
             }
         }
