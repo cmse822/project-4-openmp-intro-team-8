@@ -40,7 +40,9 @@ At the moment, the non-openMP version of MMM is running faster than the openMP v
 
 3. Perform a thread-to-thread speedup study of your MMM code either on your laptop or HPCC. Compute the total time to solution for a few thread counts (in powers of 2): `1,2,4,...T`, where T is the maximum number of threads available on the machine you are using. Do this for matrix sizes of `N=20,100,1000`.
 
-See csv file for information
+![Num threads vs. runtime for N = 20](NumThreadsVsRuntimeN=20.png)
+![Num threads vs. runtime for N = 100](NumThreadsVsRuntimeN=100.png)
+![Num threads vs. runtime for N = 1000](NumThreadsVsRuntimeN=1000.png)
 
 4. Plot the times-to-solution for the MMM for each value of `N` separately as functions of the the thread count `T`. Compare the scaling of the MMM for different matrix dimensions.
 5. Verify that for the same input matrices that the solution does not depend on the number of threads.
