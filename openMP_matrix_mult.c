@@ -66,9 +66,9 @@ int main()
 
         #define NUM_THREADS 16
         #define totalIterations 10
-        omp_set_num_threads(NUM_THREADS);
 
         for (int thread_num = 1; thread_num < NUM_THREADS + 1; thread_num*=2) {
+            omp_set_num_threads(thread_num);
             for (int iter = 0; iter < totalIterations + 1; iter++){
                 double start_time = omp_get_wtime();
 
