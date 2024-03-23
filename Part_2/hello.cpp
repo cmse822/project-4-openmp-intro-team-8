@@ -1,12 +1,28 @@
 #include "mpi.h"
 #include <omp.h>
 #include <stdio.h>
+#include <string.h>
 
 int main(int argc, char *argv[]) 
 {
-    int numtasks, rank;
-    //printf("Hello, World! (Before Init)\n");
-    MPI_Init_thread(&argc, &argv, MPI_THREAD_FUNNELED, &provided);
+    int numtasks, rank, thread_support;
+    int thread_support = MPI_THREAD_SINGLE;
+
+    if (argc > 1) {
+        if (strcmp(argv[1], "single") == 0) {
+            thread_support = MPI_THREAD_SINGLE;
+        } else if (strcmp(argv[1], "funneled") == 0) {
+            thread_support = MPI_THREAD_FUNNELED;
+        } else if (strcmp(argv[1], "serialized") == 0) {
+            thread_support = MPI_THREAD_SERIALIZED;
+        } else if (strcmp(argv[1], "multiple") == 0) {
+            thread_support = MPI_THREAD_MULTIPLE;
+        } else {
+            printf("Thread support level not provided.\n");
+        }
+    }
+
+    MPI_Init_thread(&argc, &argv, thread_support, &provided);
     MPI_Comm_size(MPI_COMM_WORLD, &numtasks);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 

@@ -1,0 +1,57 @@
+Lmod Warning: Input module (gcc) not found, using module: GCC . . . (ICER v.) 
+
+
+Lmod Warning: Input module (openmpi) not found, using module: OpenMPI . . .
+(ICER v.) 
+
+
+Lmod Warning: Input module (hdf5) not found, using module: HDF5 . . . (ICER
+v.) 
+
+
+Lmod Warning: Input module (python) not found, using module: Python . . .
+(ICER v.) 
+
+
+JobId=33005614 JobName=cores64
+   UserId=atiksere(6182411) GroupId=biochem(2005) MCS_label=N/A
+   Priority=18186 Nice=0 Account=dicksonlab QOS=normal
+   JobState=RUNNING Reason=None Dependency=(null)
+   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
+   RunTime=00:00:03 TimeLimit=01:00:00 TimeMin=N/A
+   SubmitTime=2024-03-22T22:43:22 EligibleTime=2024-03-22T22:43:22
+   AccrueTime=2024-03-22T22:43:22
+   StartTime=2024-03-22T22:43:26 EndTime=2024-03-22T23:43:26 Deadline=N/A
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2024-03-22T22:43:26 Scheduler=Main
+   Partition=DicksonLab AllocNode:Sid=dev-amd20-v100:268218
+   ReqNodeList=(null) ExcNodeList=(null)
+   NodeList=lac-025
+   BatchHost=lac-025
+   NumNodes=1 NumCPUs=2 NumTasks=1 CPUs/Task=2 ReqB:S:C:T=0:0:*:*
+   ReqTRES=cpu=2,mem=2G,node=1,billing=311
+   AllocTRES=cpu=2,mem=2G,node=1,billing=311
+   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
+   MinCPUsNode=2 MinMemoryNode=2G MinTmpDiskNode=0
+   Features=[intel14|intel16|intel18|(amr|acm)|nvf|nal|nif] DelayBoot=00:00:00
+   OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null)
+   Command=/mnt/ufs18/home-244/atiksere/CMSE822/project-4-openmp-intro-team-8/Part_2/batch_job.sh
+   WorkDir=/mnt/ufs18/home-244/atiksere/CMSE822/project-4-openmp-intro-team-8/Part_2
+   Comment=stdout=/mnt/ufs18/home-244/atiksere/CMSE822/project-4-openmp-intro-team-8/Part_2/slurm-33005614.out 
+   StdErr=/mnt/ufs18/home-244/atiksere/CMSE822/project-4-openmp-intro-team-8/Part_2/slurm-33005614.out
+   StdIn=/dev/null
+   StdOut=/mnt/ufs18/home-244/atiksere/CMSE822/project-4-openmp-intro-team-8/Part_2/slurm-33005614.out
+   Power=
+   
+
+hello.cpp: In function ‘int main(int, char**)’:
+hello.cpp:9:57: error: ‘provided’ was not declared in this scope
+     MPI_Init_thread(&argc, &argv, MPI_THREAD_FUNNELED, &provided);
+                                                         ^~~~~~~~
+--------------------------------------------------------------------------
+There are not enough slots available in the system to satisfy the 2 slots
+that were requested by the application:
+  ./hello
+
+Either request fewer slots for your application, or make more slots available
+for use.
+--------------------------------------------------------------------------
