@@ -1,22 +1,22 @@
-JobId=33005616 JobName=822_p4
+JobId=33006076 JobName=822_p4
    UserId=atiksere(6182411) GroupId=biochem(2005) MCS_label=N/A
-   Priority=18800 Nice=0 Account=dicksonlab QOS=normal
+   Priority=18436 Nice=0 Account=dicksonlab QOS=normal
    JobState=RUNNING Reason=None Dependency=(null)
    Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
-   RunTime=00:00:07 TimeLimit=01:00:00 TimeMin=N/A
-   SubmitTime=2024-03-22T22:44:34 EligibleTime=2024-03-22T22:44:34
-   AccrueTime=2024-03-22T22:44:34
-   StartTime=2024-03-22T22:44:34 EndTime=2024-03-22T23:44:34 Deadline=N/A
-   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2024-03-22T22:44:34 Scheduler=Main
+   RunTime=00:00:08 TimeLimit=01:00:00 TimeMin=N/A
+   SubmitTime=2024-03-22T22:56:59 EligibleTime=2024-03-22T22:56:59
+   AccrueTime=2024-03-22T22:56:59
+   StartTime=2024-03-22T22:57:09 EndTime=2024-03-22T23:57:09 Deadline=N/A
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2024-03-22T22:57:09 Scheduler=Main
    Partition=DicksonLab AllocNode:Sid=dev-amd20-v100:268218
    ReqNodeList=(null) ExcNodeList=(null)
-   NodeList=lac-025
-   BatchHost=lac-025
-   NumNodes=1 NumCPUs=2 NumTasks=1 CPUs/Task=2 ReqB:S:C:T=0:0:*:*
+   NodeList=lac-029
+   BatchHost=lac-029
+   NumNodes=1 NumCPUs=2 NumTasks=2 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
    ReqTRES=cpu=2,mem=32G,node=1,billing=4980
    AllocTRES=cpu=2,mem=32G,node=1,billing=4980
    Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
-   MinCPUsNode=2 MinMemoryNode=32G MinTmpDiskNode=0
+   MinCPUsNode=1 MinMemoryNode=32G MinTmpDiskNode=0
    Features=[intel14|intel16|intel18|(amr|acm)|nvf|nal|nif] DelayBoot=00:00:00
    OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null)
    Command=/mnt/ufs18/home-244/atiksere/CMSE822/project-4-openmp-intro-team-8/Part_2/batch_job.sh
@@ -28,3 +28,11 @@ JobId=33005616 JobName=822_p4
    Power=
    
 
+MPI Rank: 0, Thread: 0, on node: lac-029.i
+MPI Rank: 0, Thread: 3, on node: lac-029.i
+MPI Rank: 0, Thread: 2, on node: lac-029.i
+MPI Rank: 0, Thread: 1, on node: lac-029.i
+MPI Rank: 1, Thread: 0, on node: lac-029.i
+MPI Rank: 1, Thread: 3, on node: lac-029.i
+MPI Rank: 1, Thread: 2, on node: lac-029.i
+MPI Rank: 1, Thread: 1, on node: lac-029.i

@@ -5,24 +5,10 @@
 
 int main(int argc, char *argv[]) 
 {
-    int numtasks, rank, thread_support;
-    int thread_support = MPI_THREAD_SINGLE;
+    int numtasks, rank, provided;
+    int required = MPI_THREAD_FUNNELED;
 
-    if (argc > 1) {
-        if (strcmp(argv[1], "single") == 0) {
-            thread_support = MPI_THREAD_SINGLE;
-        } else if (strcmp(argv[1], "funneled") == 0) {
-            thread_support = MPI_THREAD_FUNNELED;
-        } else if (strcmp(argv[1], "serialized") == 0) {
-            thread_support = MPI_THREAD_SERIALIZED;
-        } else if (strcmp(argv[1], "multiple") == 0) {
-            thread_support = MPI_THREAD_MULTIPLE;
-        } else {
-            printf("Thread support level not provided.\n");
-        }
-    }
-
-    MPI_Init_thread(&argc, &argv, thread_support, &provided);
+    MPI_Init_thread(&argc, &argv, required, &provided);
     MPI_Comm_size(MPI_COMM_WORLD, &numtasks);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 

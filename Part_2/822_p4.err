@@ -15,15 +15,3 @@ Lmod Warning: Input module (python) not found, using module: Python . . .
 (ICER v.) 
 
 
-hello.cpp: In function ‘int main(int, char**)’:
-hello.cpp:9:57: error: ‘provided’ was not declared in this scope
-     MPI_Init_thread(&argc, &argv, MPI_THREAD_FUNNELED, &provided);
-                                                         ^~~~~~~~
---------------------------------------------------------------------------
-There are not enough slots available in the system to satisfy the 2 slots
-that were requested by the application:
-  ./hello
-
-Either request fewer slots for your application, or make more slots available
-for use.
---------------------------------------------------------------------------
