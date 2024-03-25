@@ -55,7 +55,20 @@ Take a look at the Hello World applications that we have used in past assignment
 2. Make sure to modify the `MPI_Init` call accordingly to allow for threads! What level of thread support do you need?
 3. Compile the code including the appropriate flag for OpenMP support. For a GCC-based MPI installation, this would be, e.g., `mpic++ -fopenmp hello.cpp`.
 4. Run the code using 2 MPI ranks and 4 OpenMP threads per rank. To do this, prior to executing the run command, set the number of threads environment variable as `> export OMP_NUM_THREADS=4`. Then you can simply execute the application with the `mpiexec` command: `> mpiexec -n 2 ./a.out`.
+
+![Thread execution amd20-v1000](./Part_2/Test_amd20-v100.png)
+![Thread execution amd20](./Part_2/Test_amd20.png)
+![Thread execution intel16-k80](./Part_2/Test_intel16-k80.png)
+![Thread execution intel16](./Part_2/Test_intel16.png)
+![Thread execution intel18](./Part_2/Test_intel18.png)
+
 5. Explain the output.
+
+In the given scenario where the program employs both MPI and OpenMP to achieve parallelism, the output provides insight into the execution dynamics across different layers of parallel computing. The program is configured to run with 2 MPI processes, each capable of spawning 4 OpenMP threads. This setup harnesses the computational power of multiple cores within a single machine, as evidenced by the execution on node lac-029.i.
+
+When the program runs, each MPI process—essentially acting as a distinct computational worker—initiates its own set of OpenMP threads. These threads represent sub-tasks that the MPI process can execute concurrently, leveraging the shared-memory model of OpenMP within the confines of a single node. The output reflects this structure, listing the MPI rank and the corresponding OpenMP thread ID for each message, all tagged with their node identifier, confirming that the execution is localized to a single machine.
+
+The non-sequential nature of the thread IDs in the output (e.g., the order 0, 3, 2, 1 for Rank 0) is indicative of the concurrent execution inherent in parallel computing. Each thread operates independently and can complete its assigned task at different times, leading to the interleaved pattern observed in the output.
 
 ## Part 3: Hybrid Parallel Matrix Multiplication (TODO: Everyone)
 
