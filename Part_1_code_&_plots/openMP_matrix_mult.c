@@ -70,7 +70,10 @@ int main()
         for (int thread_num = 1; thread_num < NUM_THREADS + 1; thread_num*=2) {
             omp_set_num_threads(thread_num);
             
-            for (int iter = 0; iter < totalIterations + 1; iter++){
+	    // Max iter is +2 instead of +1 to account for the fact that the first iteration
+	    // is not included in the timing calculation due to erroneous startup costs associated
+	    // with it.
+            for (int iter = 0; iter < totalIterations + 2; iter++){
                 double start_time = omp_get_wtime();
 
                 int actual_n_threads;
@@ -98,10 +101,14 @@ int main()
 
                 double end_time = omp_get_wtime();
                 double run_time = end_time - start_time;
-                printf("Runtime information %d, %d, %d, %f\n", N, iter, actual_n_threads, run_time);
-                // Writing the data
-                fprintf(outputFile, "%d, %d, %d, %f\n", N, iter, actual_n_threads, run_time);
-
+		
+		// Don't include the first iteration in the timing data to avoid startup cost from influencing
+		// timing values.
+		if(iter != 0){
+                	printf("Runtime information %d, %d, %d, %f\n", N, iter, actual_n_threads, run_time);
+                	// Writing the data
+                	fprintf(outputFile, "%d, %d, %d, %f\n", N, iter, actual_n_threads, run_time);
+		}
             }
         }
     }
