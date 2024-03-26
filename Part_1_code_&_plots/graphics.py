@@ -49,7 +49,7 @@ def main():
 
     # Create a plot for df_100
     plt.figure(figsize = (10,5))
-    plt.scatter(df_20[' Threads'], df_20[' Runtime'], label='Number of threads vs runtime', linestyle='-', linewidth=1, color='blue')
+    plt.scatter(df_100[' Threads'], df_100[' Runtime'], label='Number of threads vs runtime', linestyle='-', linewidth=1, color='blue')
     plt.xlabel('Number of Threads')
     plt.ylabel('Runtime (seconds)')
     plt.title("Num Threads vs Runtime for N=100")
