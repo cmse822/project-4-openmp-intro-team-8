@@ -38,13 +38,16 @@ Running openMP version of matrix_mult.c on dev-amd20 produces these times when N
 
 At the moment, the non-openMP version of MMM is running faster than the openMP version. This is due to the overhead require to instantiate openMP and only using one thread for all the calculation. 
 
-3. Perform a thread-to-thread speedup study of your MMM code either on your laptop or HPCC. Compute the total time to solution for a few thread counts (in powers of 2): `1,2,4,...T`, where T is the maximum number of threads available on the machine you are using. Do this for matrix sizes of `N=20,100,1000`.
+3. Perform a thread-to-thread speedup study of your MMM code either on your laptop or HPCC. Compute the total time to solution for a few thread counts (in powers of 2): `1,2,4,...T`, where T is the maximum number of threads available on the machine you are using. Do this for matrix sizes of `N=20,100,1000`. Done!
+
+4. Plot the times-to-solution for the MMM for each value of `N` separately as functions of the the thread count `T`. Compare the scaling of the MMM for different matrix dimensions.
 
 ![Num threads vs. runtime for N = 20](./Part_1_code_&_plots/NumThreadsVsRuntimeN=20.png)
 ![Num threads vs. runtime for N = 100](./Part_1_code_&_plots/NumThreadsVsRuntimeN=100.png)
 ![Num threads vs. runtime for N = 1000](./Part_1_code_&_plots/NumThreadsVsRuntimeN=1000.png)
 
-4. Plot the times-to-solution for the MMM for each value of `N` separately as functions of the the thread count `T`. Compare the scaling of the MMM for different matrix dimensions.
+Comparing the scaling of the MMM for different matrix dimensions, we can start off by noticing that in all three of our graphs, there is a clear exponential decrease in the time-to-solution when the number of threads available increases, with 1 thread being the slowest and 16 threads being the fastest for MMM size N=20, N=100, and N=1000. This obviously makes sense, since when more threads are available, more calculations can be done concurrently, and therefore the time it takes to find the solution to the MMM should be and is less when more threads are available.
+
 5. Verify that for the same input matrices that the solution does not depend on the number of threads.
 
 ## Part 2: Adding OpenMP threading to a simple MPI application (TODO: Berk and Cheng)
