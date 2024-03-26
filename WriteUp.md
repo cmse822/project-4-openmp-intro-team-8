@@ -84,6 +84,25 @@ The non-sequential nature of the thread IDs in the output (e.g., the order 0, 3,
 Now, let's combine OpenMP and MPI functionality into a hybrid parallel version of the MMM. 
 
 1. Add MPI to  you OpenMP MMM code by distributing the rows of one of the input matrices across MPI ranks. Have each MPI rank perform its portion of the MMM using OpenMP threading. Think very carefully about the structure of the main MMM loops! Once done, gather the resulting matrix on rank 0 and output the result. Verify that for the same input matrices the result does not depend on either the number of MPI ranks or the number of OpenMP threads per rank. 
+![MPI/OpenMP MMM with NumThreads = 1](./Part_3/openMP_MPI_numThread1.png)
+![MPI/OpenMP MMM with NumThreads = 2](./Part_3/openMP_MPI_numThread2.png)
+![MPI/OpenMP MMM with NumThreads = 4](./Part_3/openMP_MPI_numThread4.png)
+![MPI/OpenMP MMM with NumThreads = 8](./Part_3/openMP_MPI_numThread8.png)
+![MPI/OpenMP MMM with NumThreads = 16](./Part_3/openMP_MPI_numThread16.png)
+
+Notice that for the same input matrix created in the following code:
+```c
+for (int j = 0; j < 20; j++)
+        {
+            for (int k = 0; k < 20; k++)
+            {
+                a[j][k] = k + 1;
+                b[j][k] = 20 - (k);
+            }
+        }
+```
+results in the same output code displayed above when the number of theads varies from 1 to 16.
+
 2. On HPCC, carry out a performance study in which you vary the number of MPI ranks, the number of OpenMP threads per rank, and the matrix size. Make plots showing the times to solution for the various cases. Explain your results.
 
 ## What to turn in
