@@ -3,6 +3,7 @@
 #include <limits.h>
 #include <time.h>
 #include <omp.h>
+#include <mpi.h>
 #include <stdlib.h>
 #include <stdbool.h>
 
@@ -12,18 +13,37 @@ int main()
     int a[20][20] = {{0}};
     int b[20][20] = {{0}};
     int c[20][20] = {{0}};
-    for(int j = 0; j < 20; j++) {
-        for(int k = 0; k < 20; k++) {
-            a[j][k] = k+1;
-            b[j][k] = 20-(k);
-        }
-    }
+    
     // for(int j = 0; j < 20; j++) {
     //     for(int k = 0; k < 20; k++) {
     //         printf("%d ", b[j][k]);
     //     }
     //     printf("\n");
     // }
+
+    MPI_Init(&argc, &argv);
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    MPI_Comm_size(MPI_COMM_WORLD, &size);
+
+    if (rank == 0)
+    {
+        for (int j = 0; j < 20; j++)
+        {
+            for (int k = 0; k < 20; k++)
+            {
+                a[j][k] = k + 1;
+                b[j][k] = 20 - (k);
+            }
+        }
+    }
+
+    // Broadcast matrix a to all ranks
+    MPI_Bcast(a, 20 * 20, MPI_INT, 0, MPI_COMM_WORLD);
+
+    // Scatter rows of matrix b among the ranks
+    int rows_per_rank = 20 / size; // Assuming the number of ranks divides 20 evenly
+    int local_b[rows_per_rank][20];
+    MPI_Scatter(b, rows_per_rank * 20, MPI_INT, local_b, rows_per_rank * 20, MPI_INT, 0, MPI_COMM_WORLD);
 
     #define NUM_THREADS 16
     #define totalIterations 1
@@ -37,9 +57,6 @@ int main()
             int message_size = 2;
             int processA,processB;
             processA = 0; processB = 1;
-
-            
-
 
             #pragma omp parallel
             {
