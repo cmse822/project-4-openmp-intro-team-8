@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-int main()
+int main(int argc, char *argv[])
 {
 	//int N[3] = {20,100,1000};
     int a[20][20] = {{0}};
@@ -21,9 +21,13 @@ int main()
     //     printf("\n");
     // }
 
+    int rank, size; 
+    
     MPI_Init(&argc, &argv);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
+
+
 
     if (rank == 0)
     {
@@ -53,28 +57,32 @@ int main()
         omp_set_num_threads(thread_num);
         int c[20][20] = {{0}};
         for(int iter = 0; iter < totalIterations + 1; iter++) {
-            int actual_n_threads;
-            int message_size = 2;
-            int processA,processB;
-            processA = 0; processB = 1;
+            // int actual_n_threads;
+            // int message_size = 2;
+            // int processA,processB;
+            // processA = 0; processB = 1;
+            int c_local[20][20] = {{0}}; // Each thread will have its local result matrix
 
             #pragma omp parallel
             {
-                int threadnum = omp_get_thread_num(),
-                numthreads = omp_get_num_threads();
-                actual_n_threads = numthreads;
-                char *buffer = (char *)malloc(message_size * sizeof(char));
+                // int threadnum = omp_get_thread_num(),
+                // numthreads = omp_get_num_threads();
+                // actual_n_threads = numthreads;
+                // char *buffer = (char *)malloc(message_size * sizeof(char));
                 #pragma omp for collapse(2)
 
                     for(int idx = 0; idx < N; idx++) {
                         for(int idy = 0; idy < N; idy++) {
                             for(int idz = 0; idz < N; idz++) {
-                                c[idx][idy] += a[idx][idz] * b[idz][idy];
+                                c_local[idx][idy] += a[idx][idz] * b[idz][idy];
                             }
                         }
                 }
-                MPI_Recv(buffer, message_size / sizeof(char), MPI_CHAR, processB, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            
             }
+            // Accumulate local results into global result matrix c
+            MPI_Reduce(c_local, c, 20 * 20, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
+            
         }
         printf("NumThreads: %d\n", thread_num);
         for(int i = 0; i < N; i++) {
@@ -84,4 +92,7 @@ int main()
             printf("\n");
         }
     }
+
+    MPI_Finalize();
+    return 0;
 }
