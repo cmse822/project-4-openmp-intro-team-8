@@ -50,6 +50,12 @@ Comparing the scaling of the MMM for different matrix dimensions, we can start o
 
 5. Verify that for the same input matrices that the solution does not depend on the number of threads.
 
+![MMM_Solution_Verification Output](./Part_1_code_&_plots/MMM_Solution_Verification_Output.png)
+
+The image above is the output of a the program titled MMM_Solution_Verification.c.
+
+To verify that for the same input matrices that the solution does not depend on the number of threads, we ran an experiment where we created two N=5 matrices, with A={{1, 2, 3, 4, 5}, {1, 2, 3, 4, 5}, {1, 2, 3, 4, 5}, {1, 2, 3, 4, 5}, {1, 2, 3, 4, 5}} and B={{5, 4, 3, 2, 1}, {5, 4, 3, 2, 1}, {5, 4, 3, 2, 1}, {5, 4, 3, 2, 1}, {5, 4, 3, 2, 1}}. We then multiplied the A and B matrices using a different number of threads each time with thread amounts equal to {1, 2, 4, 8, 16} and recorded the solution to the MMM in C. As can be seen by the output of our test above, regardless of the number of threads, C always equaled {{150, 120, 90, 60, 30}, {150, 120, 90, 60, 30}, {150, 120, 90, 60, 30}, {150, 120, 90, 60, 30}, {150, 120, 90, 60, 30}}. So, this verifies that for the same input matrices (A and B) that the solution (C) does not depend on the number of threads.
+
 ## Part 2: Adding OpenMP threading to a simple MPI application (TODO: Berk and Cheng)
 
 Take a look at the Hello World applications that we have used in past assignments that include basic MPI functionality. Modify one of these applications to include OpenMP. 
