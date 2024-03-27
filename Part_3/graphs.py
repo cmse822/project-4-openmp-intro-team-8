@@ -5,27 +5,6 @@ import seaborn as sns
 # Load the data
 data = pd.read_csv('performance_data.csv')
 
-def plot_time_vs_mpi_ranks_by_matrix_size(data):
-    '''
-    Plot time to solution vs. MPI ranks for each matrix size in separate subplots.
-    '''
-    matrix_sizes = data['Matrix_Size'].unique()
-    fig, axes = plt.subplots(nrows=len(matrix_sizes), ncols=1, figsize=(12, 8), sharex=True, sharey=True)
-    
-    for ax, matrix_size in zip(axes, matrix_sizes):
-        for threads_per_rank in data['Threads_Per_Rank'].unique():
-            subset = data[(data['Matrix_Size'] == matrix_size) & (data['Threads_Per_Rank'] == threads_per_rank)]
-            ax.plot(subset['MPI_Ranks'], subset['Time'], marker='o', linestyle='-', label=f'Threads {threads_per_rank}')
-        ax.set_title(f'Matrix Size: {matrix_size}')
-        ax.grid(True)
-        ax.set_xlabel('MPI Ranks')
-        ax.set_ylabel('Time to Solution (s)')
-        if ax == axes[-1]:
-            ax.legend()
-
-    plt.tight_layout()
-    plt.show()
-
 def plot_time_vs_matrix_size_by_mpi_rank(data):
     '''
     Plot time to solution vs. matrix size for each MPI rank in separate subplots.
@@ -61,9 +40,7 @@ def plot_heatmap_for_matrix_size(data, matrix_size):
     plt.show()
 
 if __name__ == '__main__':
-    plot_time_vs_mpi_ranks_by_matrix_size(data)
     plot_time_vs_matrix_size_by_mpi_rank(data)
-
 
     matrix_sizes = [20, 100, 500]
     for matrix_size in matrix_sizes:
