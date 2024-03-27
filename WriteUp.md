@@ -105,6 +105,24 @@ results in the same output code displayed above when the number of theads varies
 
 2. On HPCC, carry out a performance study in which you vary the number of MPI ranks, the number of OpenMP threads per rank, and the matrix size. Make plots showing the times to solution for the various cases. Explain your results.
 
+![MPI/OpenMP MMM with NumThreads = 16](./Part_3/plots/matrix_20.png)
+![MPI/OpenMP MMM with NumThreads = 16](./Part_3/plots/matrix_100.png)
+![MPI/OpenMP MMM with NumThreads = 16](./Part_3/plots/matrix_500.png)
+
+In the heatmaps for matrix sizes 20 and 100, the times to solution are relatively low, with minimal variation across different MPI ranks and threads per rank. This suggests that for smaller matrices, the computational overhead of managing multiple threads and MPI processes does not significantly improve performance. In fact, the increase in threads per rank results in performance drop, which could be due to the small size of the problem not providing enough work to efficiently utilize the available threads, leading to thread management overhead becoming more significant.
+
+However, as the matrix size increases to 500, there's a clear trend where the time to solution decreases with more MPI ranks and threads per rank. This indicates that distributing the workload across more processes is effective for larger problems, likely because the computation work overshadows the inter-process communication overhead. Moreover, with a larger matrix, the benefit of parallelizing across multiple MPI processes becomes more pronounced, reducing the time to solution effectively.
+
+These changes suggest that the optimal balance between MPI ranks and threads per rank depends on the problem size. For small matrices, a single MPI rank with fewer threads may be sufficient, while for larger matrices, multiple MPI ranks with an appropriate number of threads per rank can significantly reduce computation time.
+
+![MPI/OpenMP MMM with NumThreads = 16](./Part_3/plots/time_vs_matrix_size_by_mpi_rank.png)
+
+From the plots above, it can be better seen that as we increase the number of MPI ranks, the performance gains from threading become more significant, especially for larger problem sizes. This suggests that the application's parallel scalability improves with both the number of MPI ranks and the size of the computational problem.
+
+
+
+
+
 ## What to turn in
 
 To your git project repo, commit your final working code for the above exercises and a concise write-up including all plots, and detailed responses to the questions posed concerning your results. 
