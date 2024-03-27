@@ -13,7 +13,9 @@ int main(int argc, char *argv[])
     FILE *fp;
     if (rank == 0)
     {
-        fp = fopen("performance_data.csv", "w");
+        char filename[256];
+        sprintf(filename, "performance_data_%d.csv", size);
+        fp = fopen(filename, "w");
         fprintf(fp, "MPI_Ranks,Threads_Per_Rank,Matrix_Size,Time\n");
     }
 
