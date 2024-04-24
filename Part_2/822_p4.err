@@ -1,0 +1,17 @@
+/mnt/home/atiksere/.bashrc: line 33: dirname: command not found
+/mnt/home/atiksere/.bashrc: line 34: dirname: command not found
+Lmod Warning: Input module (gcc) not found, using module: GCC . . . (ICER v.) 
+
+
+Lmod Warning: Input module (openmpi) not found, using module: OpenMPI . . .
+(ICER v.) 
+
+
+Lmod Warning: Input module (hdf5) not found, using module: HDF5 . . . (ICER
+v.) 
+
+
+Lmod Warning: Input module (python) not found, using module: Python . . .
+(ICER v.) 
+
+
